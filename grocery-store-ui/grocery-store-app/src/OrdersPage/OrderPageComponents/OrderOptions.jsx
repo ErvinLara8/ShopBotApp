@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
+//This is the side bar component that switches between Pending orders and Completed Orders
 class OrderOptions extends React.Component{
 
     //constructor
