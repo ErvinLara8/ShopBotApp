@@ -2,6 +2,7 @@ import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import LogInComp from './LogIn/LogInComp';
 import OrdersPage from './OrdersPage/OrdersPage';
+import EmployeePage from './EmployeePage/EmployeePage';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 
@@ -25,6 +26,7 @@ class GroceryStoreApp extends React.Component{
             <Switch>
                 <Route path="/" exact component={LogInComp} />
                 <Route path="/OrdersPage" exact component={OrdersPage}/>
+                <Route path="/EmployeePage" exact component={EmployeePage}/>
             </Switch>
 
         </BrowserRouter>

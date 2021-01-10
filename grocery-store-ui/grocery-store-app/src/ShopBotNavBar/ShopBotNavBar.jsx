@@ -6,12 +6,23 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const ShopBotLogo = require("./ShopBotLogo.png");
+
 class ShopBotNavBar extends React.Component{
 
     render(){
         return(
         <Navbar expand="lg" bg="dark" variant="dark">
-            <Navbar.Brand>ShopBot</Navbar.Brand>
+            <Navbar.Brand>
+                <img
+                    alt=""
+                    src={ShopBotLogo}
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                />{' '}
+                ShopBot
+            </Navbar.Brand>
             
             <Nav fill variant="pills" className="mr-auto">
                 <Nav.Item>
