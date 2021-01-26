@@ -16,14 +16,13 @@ class ExistingEmployees extends React.Component{
         else if (this.props.numOfEmployees > 0)
         {
             //looping though all the employees and passing data to create <ExistingEmployeeList/> components
-            var allEmployees = this.props.allPendingOrders.map((currOrder)=>(
+            var allEmployees = this.props.allExistingEmployees.map((currEmployee)=>(
                 <ListGroup.Item>
                     <ExistingEmployeesList 
-                        orderID = {currOrder["orderID"]}
-                        userID = {currOrder["userID"]}
-                        firstName = {currOrder["firstName"]}
-                        lastName = {currOrder["lastName"]}
-                        wantedProducts = {currOrder["wantedProducts"]}
+                        employeeID = {currEmployee["employeeID"]}
+                        firstName = {currEmployee["firstName"]}
+                        lastName = {currEmployee["lastName"]}
+                        password = {currEmployee["password"]}
                     />
                 </ListGroup.Item>
 

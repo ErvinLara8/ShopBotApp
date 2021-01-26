@@ -18,7 +18,7 @@ class AddedEmployees extends React.Component{
         this.props.addedToExisting(employeeID);
     }
 
-    render(){ //TODO: Saara edit the AddedEmployeesList to reflect the proper data that will be stored
+    render(){
         
         var display; 
 
@@ -29,14 +29,13 @@ class AddedEmployees extends React.Component{
         else if (this.props.numOfEmployees > 0)
         {
             //looping though all the employees and passing their data to create <ExistingEmployeesList/> components
-            var allEmployees = this.props.allPendingOrders.map((currOrder)=>(
+            var allEmployees = this.props.allExistingEmployees.map((currEmployee)=>(
                 <ListGroup.Item>
                     <AddedEmployeesList 
-                        orderID = {currOrder["orderID"]}
-                        userID = {currOrder["userID"]}
-                        firstName = {currOrder["firstName"]}
-                        lastName = {currOrder["lastName"]}
-                        wantedProducts = {currOrder["wantedProducts"]}
+                        employeeID = {currEmployee["employeeID"]}
+                        firstName = {currEmployee["firstName"]}
+                        lastName = {currEmployee["lastName"]}
+                        password = {currEmployee["password"]}
                         addedToExisting2 = {this.handleAddedtoExisting}
                     />
                 </ListGroup.Item>

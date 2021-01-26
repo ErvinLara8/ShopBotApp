@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button';
 
-const checkImg = require("./CheckImage.jpg");
+//const checkImg = require("./CheckImage.jpg");
 
 //This is the component that displays an existing employees info
 class ExistingEmployeesList extends React.Component{
@@ -33,9 +33,7 @@ class ExistingEmployeesList extends React.Component{
                 <Row>
                     <Col><Button>View Full Order</Button></Col>
                     <Col  md={{ offset: 7 }}>
-                        <img 
-                            src={checkImg}
-                        /> 
+
                     </Col>
                 </Row>
             </Container>

@@ -48,14 +48,14 @@ class EmployeePage extends React.Component {
 
         //looping through array 
         for(let list of this.state.allAddedEmployees){
-            if (list["employeeID"] == addedEmployeeID){ 
+            if (list["employeeID"] === addedEmployeeID){ 
                 tempEmployee = list; 
                 break;
             }
         }
         
         //getting rid of value in pending array 
-        tempAllAdded = this.state.allAddedEmployees.filter(list => list["employeeID"] != addedEmployeeID)
+        tempAllAdded = this.state.allAddedEmployees.filter(list => list["employeeID"] !== addedEmployeeID)
 
         //setting new arrays 
         this.setState({
@@ -72,7 +72,7 @@ class EmployeePage extends React.Component {
         .then((result) => {
 
             this.setState({
-                numOfExistingEmployees: result.existingEmployees.length, //Saara- need to add this in
+                numOfExistingEmployees: result.existingEmployees.length, 
                 numOfAddedEmployees: result.addedEmployees.length,
                 allExistingEmployees : result.existingEmployees,
                 allAddedEmployees: result.addedEmployees
