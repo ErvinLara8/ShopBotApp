@@ -32,17 +32,17 @@ def sample():
 def sample():
 
 
-  newEmployee1 = {"employeeID": 3, "firstName": "Peter", "lastName": "Parker", "password": "Spiderman2021"}
-  newEmployee2 = {"employeeID": 4, "firstName": "Zaid", "lastName": "Beau", "password": "Baseball#11"}
   employee1 = {"employeeID": 1, "firstName": "Saara", "lastName": "Vohra", "password": "myPassword123"}
   employee2 = {"employeeID": 2, "firstName": "Leya", "lastName": "Michele", "password": "thisIsMyPass00"}
-  
-  allAddedEmployees = [newEmployee1,newEmployee2]
+  newEmployee1 = {"employeeID": 3, "firstName": "Peter", "lastName": "Parker", "password": "Spiderman2021"}
+  newEmployee2 = {"employeeID": 4, "firstName": "Zaid", "lastName": "Beau", "password": "Baseball#11"}
+
   allExistingEmployees = [employee1,employee2]
+  allAddedEmployees = [newEmployee1,newEmployee2]
 
 
 
-  return jsonify({"addedEmployees": allAddedEmployees, "existingEmployees":allExistingEmployees })  
+  return jsonify({"existingEmployees":allExistingEmployees, "addedEmployees": allAddedEmployees })
 
 if __name__ == "__main__":
     app.run(debug=True)

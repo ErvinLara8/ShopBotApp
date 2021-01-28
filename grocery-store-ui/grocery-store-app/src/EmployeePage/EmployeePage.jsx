@@ -20,9 +20,9 @@ class EmployeePage extends React.Component {
 
         //these are the page variables
         this.state = {
-            employeeOption: "adding", 
-            numOfExistingEmployees: -1,
-            numOfAddedEmployees: -1,
+            employeeOption: "existing", 
+            numOfExistingEmployees: -1, 
+            numOfAddedEmployees: -1, 
             allExistingEmployees: [],
             allAddedEmployees: [],
         }
@@ -39,7 +39,7 @@ class EmployeePage extends React.Component {
     }
 
     // this method will be called when an Pending order is completed
-    addedToExisting(addedEmployeeID){
+    addedToExisting(existingEmployeeID){
         //we will do some backend fetching over here
 
         //temp Variables 
@@ -48,14 +48,14 @@ class EmployeePage extends React.Component {
 
         //looping through array 
         for(let list of this.state.allAddedEmployees){
-            if (list["employeeID"] === addedEmployeeID){ 
+            if (list["employeeID"] === existingEmployeeID){ 
                 tempEmployee = list; 
                 break;
             }
         }
         
         //getting rid of value in pending array 
-        tempAllAdded = this.state.allAddedEmployees.filter(list => list["employeeID"] !== addedEmployeeID)
+        tempAllAdded = this.state.allAddedEmployees.filter(list => list["employeeID"] !== existingEmployeeID)
 
         //setting new arrays 
         this.setState({
@@ -89,12 +89,12 @@ class EmployeePage extends React.Component {
 
         var currOption = "Loading";
 
-        // choosing between pending and completed components
+        // choosing between existing and added components
         if(this.state.employeeOption === "existing")
         {
             currOption = <ExistingEmployees 
-                            numOfEmployees = {this.state.numOfExistingEmployees}
-                            allAddedEmployees = {this.state.allExistingEmployees}
+                           numOfEmployees = {this.state.numOfExistingEmployees}
+                           allAddedEmployees = {this.state.allExistingEmployees}
                         />
         }
         else if (this.state.employeeOption === "adding")
@@ -106,7 +106,6 @@ class EmployeePage extends React.Component {
                         />
         }
 
-        //const pageTitle = "ShopBot Grocery Store Log In";
         return(
             <Container>
                 <Row sm={1} md={1} lg ={1}>
@@ -123,9 +122,6 @@ class EmployeePage extends React.Component {
                         {currOption}
                     </Col>
                 </Row>
-
-
-
 
             </Container>
         );

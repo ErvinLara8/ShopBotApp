@@ -34,7 +34,7 @@ class ShopBotNavBar extends React.Component{
                 </Nav.Item>
 
                 <Nav.Item>
-                    <Nav.Link eventKey="">Employees</Nav.Link>
+                    <Nav.Link href="/EmployeePage">Employees</Nav.Link>
                 </Nav.Item>
             </Nav>
 

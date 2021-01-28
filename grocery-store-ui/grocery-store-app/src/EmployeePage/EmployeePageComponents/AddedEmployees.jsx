@@ -29,7 +29,7 @@ class AddedEmployees extends React.Component{
         else if (this.props.numOfEmployees > 0)
         {
             //looping though all the employees and passing their data to create <ExistingEmployeesList/> components
-            var allEmployees = this.props.allExistingEmployees.map((currEmployee)=>(
+            var allEmployees = this.props.allAddedEmployees.map((currEmployee)=>(
                 <ListGroup.Item>
                     <AddedEmployeesList 
                         employeeID = {currEmployee["employeeID"]}
