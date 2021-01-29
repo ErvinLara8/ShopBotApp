@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'ShopBotAPI',
+    'ShopBotAPI'
 ]
 
 MIDDLEWARE = [
@@ -76,14 +76,22 @@ WSGI_APPLICATION = 'ShopBotSiteProject.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'ShopBotDatabase',
-        'CLIENT': {
-            'host': 'mongodb+srv://Ervin:Ervin123@shopbotdb.tmvje.mongodb.net/ShopBotDatabase?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE',
-            'username':'Ervin',
-            'password': 'Ervin123',
-        }
+    # 'default': {
+    #     'ENGINE': 'djongo',
+    #     'NAME': 'ShopBotDatabase',
+    #     'CLIENT': {
+    #         'host': 'mongodb+srv://Ervin:Ervin123@shopbotdb.tmvje.mongodb.net/ShopBotDatabase?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE',
+    #         'username':'Ervin',
+    #         'password': 'Ervin123',
+    #     }
+    # }
+     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ShopBotDB',
+        'USER': 'admin',
+        'PASSWORD': 'Shopbot12345',
+        'HOST': 'shopbotdb.ckuidivjfp5c.us-east-1.rds.amazonaws.com',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
