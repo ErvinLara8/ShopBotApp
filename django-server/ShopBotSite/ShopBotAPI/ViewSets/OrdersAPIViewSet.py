@@ -67,7 +67,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
     
     # Getting all completed orders
     @action(detail=False, methods=['get'] )
-    def completed_orders(self, request):
+    def fetching_completed_orders(self, request):
 
         try:
 
@@ -82,7 +82,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
 
     # Getting all pending orders
     @action(detail=False, methods=['get'] )
-    def pending_orders(self, request):
+    def fetching_pending_orders(self, request):
 
         try:
 
@@ -105,23 +105,6 @@ class OrdersViewSet(viewsets.ModelViewSet):
             # getting the data from the request
             order_data = JSONParser().parse(request)
 
-
-            # Leaving this for later testing
-            # order_list = order_data.pop('order_list')
-
-            # for item in order_list:
-
-            #     listed_item_query = StoreListings.objects.filter(listing_ID = item['listing_ID'])
-
-            #     listed_item = StoreListingSerializer(listed_item)
-
-            #     if item['wanted_num'] <= listed_item.data['quantity']:
-            #         print(True)
-            #     else:
-            #         print(False)
-
-        
-
             # converting the data through the serializer
             order_serializer = CheckOrAddOrderTableSerializer(data=order_data)
 
@@ -143,7 +126,6 @@ class OrdersViewSet(viewsets.ModelViewSet):
 
         detail_data = JSONParser().parse(request)
         many = isinstance(detail_data, list)
-        print (detail_data, many)
 
         detail_serializer = AddOrderDetailSerializer(data=detail_data, many = many)
 
