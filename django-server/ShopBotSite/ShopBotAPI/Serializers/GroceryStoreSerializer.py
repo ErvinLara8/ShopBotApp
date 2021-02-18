@@ -15,4 +15,3 @@ class CheckOrAddGroceryStore(serializers.ModelSerializer):
     class Meta:
         model = GroceryStore
         fields = '__all__'
-

@@ -1,19 +1,35 @@
 from rest_framework import serializers 
 from ShopBotAPI.models import Employees
-from .GroceryStoreSerializer import GroceryStoreSerializer
+from .GroceryStoreSerializer import GetGroceryStoreSerializer
+from .UsersSerializer import GetUsersSerializer, CheckUserSerializer, AddUserSerializer
 
-# Gets employee without password and with store description 
-class GetEmployeesSerializer(serializers.ModelSerializer):
 
-    employed_store = GroceryStoreSerializer()
+# Log In Employee
+class LogInEmployeeSerializer(serializers.ModelSerializer):
+
+    user_id = CheckUserSerializer()
+    store_ID = GetGroceryStoreSerializer()
 
     class Meta:
         model = Employees
-        fields = ['employee_ID', 'employed_store', 'first_name', 'last_name']
+        fields = '__all__'
 
 
-# Used to add employee or check employee witout only store id
-class CheckOrAddEmployeeSerializer(serializers.ModelSerializer):
+# Register Employee
+class RegisterEmployeeSerializer(serializers.ModelSerializer):
+
+    user_id = AddUserSerializer()
+
+    class Meta:
+        model = Employees
+        fields = '__all__'
+
+
+# Get Employee
+class GetEmployeeSerializer(serializers.ModelSerializer):
+
+    user_id = GetUsersSerializer()
+    store_ID = GetGroceryStoreSerializer()
 
     class Meta:
         model = Employees

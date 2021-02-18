@@ -13,9 +13,8 @@ class StoreListingSerializer(serializers.ModelSerializer):
         fields = ['listing_ID','product_ID', 'price', 'quantity']
 
 
-
 # used to add listing
-class AddStoreListing(serializers.ModelSerializer):
+class AddStoreListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreListings
         fields = '__all__'

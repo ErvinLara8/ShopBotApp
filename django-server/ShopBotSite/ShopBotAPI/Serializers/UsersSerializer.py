@@ -18,5 +18,5 @@ class AddUserSerializer(serializers.ModelSerializer):
 class CheckUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'password', 'last_login', 'username', 'is_superuser', 'first_name', 'last_name', 'email',  'is_staff',]
+        fields = ['id', 'password', 'last_login', 'username', 'first_name', 'last_name', 'email',  'is_staff',]
 

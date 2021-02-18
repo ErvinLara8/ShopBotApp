@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-# WE ARE USING AUTH USER
-
 class GroceryStore(models.Model):
 
     store_ID = models.AutoField(primary_key=True)
@@ -58,7 +56,7 @@ class OrderDetails(models.Model):
 class Employees(models.Model):
 
     employee_ID = models.AutoField(primary_key=True)
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
     store_ID = models.ForeignKey(GroceryStore,  related_name='employed_store', on_delete=models.PROTECT)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+    is_admin = models.BooleanField(default=False)
+    is_working = models.BooleanField(default=False)

@@ -1,43 +1,60 @@
 import React from 'react';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link} from 'react-router-dom'
+import Button from 'react-bootstrap/Button';
+import {Container, Row, Col} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {logOut} from '../../../actions/auth'
 
 class ShopBotNavBar extends React.Component{
 
+    static propTypes = {
+        logOut: PropTypes.func.isRequired,
+        storeName: PropTypes.string
+    }
+
+    // <img src={require('../../../../../../ShopBot-Logo-Design.jpg')}/>
+
     render(){
         return(
-        <Navbar expand="lg" bg="dark" variant="dark">
-            <Navbar.Brand>ShopBot</Navbar.Brand>
-            
-            <Nav fill variant="pills" className="mr-auto">
-                <Nav.Item>
-                    <Nav.Link href="/OrdersPage">Orders</Nav.Link>
-                </Nav.Item>
+            <Navbar expand="lg" bg="dark" variant="dark">
+                <Container>
+                            <Navbar.Brand>ShopBot </Navbar.Brand>
+                            <Nav fill variant="tabs" justify className="mr-auto">
+                                <Nav.Item>
+                                <Nav.Link><Link to="/OrdersPage">Orders</Link></Nav.Link>
+                                </Nav.Item>
 
-                <Nav.Item>
-                    <Nav.Link eventKey="">Products</Nav.Link>
-                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey=""><Link to="/GroceryStoreProductsPage">Products</Link></Nav.Link>
+                                </Nav.Item>
 
-                <Nav.Item>
-                    <Nav.Link eventKey="">Employees</Nav.Link>
-                </Nav.Item>
-            </Nav>
+                                <Nav.Item>
+                                <Nav.Link ><Link to="/EmployeePage">Employees</Link></Nav.Link>
+                                </Nav.Item>
+                            </Nav>
 
-            <Nav justify variant="pills">
-                <Navbar.Text>
-                    Signed in as: Blank
-                </Navbar.Text>
-                <Nav.Item>
-                    <Nav.Link>Log Out</Nav.Link>
-                </Nav.Item>
-            </Nav>
-        </Navbar>
+                            <Navbar.Text >
+                                    {this.props.storeName}
+                            </Navbar.Text>
+
+
+                            <Nav fill className="justify-content-end" variant="pills">
+
+                                <Nav.Item>
+                                    <Button onClick={this.props.logOut}>Log Out</Button>
+                                </Nav.Item>
+                            </Nav>
+                </Container>
+            </Navbar>
         );
     }
 }
 
-export default ShopBotNavBar
+const mapStateToProps = state => ({
+    storeName: state.auth.groceryStore.name,
+});
+
+export default connect(mapStateToProps, {logOut})(ShopBotNavBar);

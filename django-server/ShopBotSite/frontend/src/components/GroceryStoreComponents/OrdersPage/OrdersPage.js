@@ -2,20 +2,24 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
 import ShopBotNavBar from '../ShopBotNavBar/ShopBotNavBar';
 import OrderOptions from './OrderPageComponents/OrderOptions';
 import PendingOrders from './OrderPageComponents/PendingOrders';
 import CompletedOrders from './OrderPageComponents/CompletedOrders';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+
 
 // State Page for Orders 
 // This file contains the structure of the Orders Page
 // This is where all the functions of the order page occurs 
 // and the data is transferred from component to component
 class OrdersPage extends React.Component {
+
+    static propTypes = {
+        token: PropTypes.string.isRequired,
+        groceryStoreID: PropTypes.number.isRequired
+    }
 
     //constructor
     constructor(props){
@@ -47,45 +51,32 @@ class OrdersPage extends React.Component {
     pendingToComplete(completedOrderID){
         //we will do some backend fetching over here
 
-        fetch('/api/OrdersAPI/'+completedOrderID+'/update_order/', {
+        fetch('/api/auth/OrdersAPI/'+completedOrderID+'/update_order/', {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
             },
             body: JSON.stringify({
                 "completed": true
             })
-            })
+            }).catch(error =>{ console.log(error)});
 
             this.componentDidMount();
-
-        // //temp Variables 
-        // var tempOrder ;
-        // var tempAllPending;
-
-        // //looping through array 
-        // for(let list of this.state.allPendingOrders){
-        //     if (list["orderID"] == completedOrderID){ 
-        //         tempOrder = list; 
-        //         break;
-        //     }
-        // }
-        
-        // //getting rid of value in pending array 
-        // tempAllPending = this.state.allPendingOrders.filter(list => list["orderID"] != completedOrderID)
-
-        // //setting new arrays 
-        // this.setState({
-        //     allPendingOrders: tempAllPending,
-        //     allCompletedOrders: this.state.allCompletedOrders.concat(tempOrder)
-        // })
     }
 
 
     fetchingCompletedOrders(){
 
-        fetch("/api/OrdersAPI/fetching_completed_orders")
+        fetch("/api/auth/OrdersAPI/"+this.props.groceryStoreID+"/fetching_completed_orders",
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            },
+        }
+        )
         .then(res => res.json())
         .then((result) => {
 
@@ -94,13 +85,20 @@ class OrdersPage extends React.Component {
                 allCompletedOrders: result
             });
         },
-        (error) => { }
-        );
+        ).catch(error =>{ console.log(error)});
     }
 
 
     fetchingPendingOrders(){
-        fetch("/api/OrdersAPI/fetching_pending_orders")
+        fetch("/api/auth/OrdersAPI/"+this.props.groceryStoreID+"/fetching_pending_orders",
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            },
+        }
+        )
         .then(res => res.json())
         .then((result) => {
 
@@ -110,8 +108,7 @@ class OrdersPage extends React.Component {
                 
             });
         },
-        (error) => { }
-        );
+        ).catch(error =>{ console.log(error)});;
 
     }
 
@@ -128,57 +125,62 @@ class OrdersPage extends React.Component {
         {
             this.fetchingCompletedOrders();
         }
-
     }
 
 
 
     render(){
 
-        var currOption = "Loading";
+        
 
-        // choosing between pending and completed components
-        if(this.state.orderOption === "pending")
-        {
-            currOption = <PendingOrders 
-                            numOfOrders = {this.state.numOfPendingOrders}
-                            allPendingOrders = {this.state.allPendingOrders}
-                            pendingToComplete = {this.pendingToComplete}
-                        />
-        }
-        else if (this.state.orderOption === "completed")
-        {
-            currOption = <CompletedOrders 
-                            numOfOrders = {this.state.numberOfCompletedOrders}
-                            allPendingOrders = {this.state.allCompletedOrders}
-                        />
-        }
+            var currOption = "Loading";
 
-        //const pageTitle = "ShopBot Grocery Store Log In";
-        return(
-            <Container>
-                <Row sm={1} md={1} lg ={1}>
-                    <ShopBotNavBar/>
-                </Row>
+            // choosing between pending and completed components
+            if(this.state.orderOption === "pending")
+            {
+                currOption = <PendingOrders 
+                                numOfOrders = {this.state.numOfPendingOrders}
+                                allPendingOrders = {this.state.allPendingOrders}
+                                pendingToComplete = {this.pendingToComplete}
+                            />
+            }
+            else if (this.state.orderOption === "completed")
+            {
+                currOption = <CompletedOrders 
+                                numOfOrders = {this.state.numberOfCompletedOrders}
+                                allPendingOrders = {this.state.allCompletedOrders}
+                            />
+            }
 
-                <Row>
-                    <Col sm={2} md={2} lg ={2}>
-                        <OrderOptions 
-                            setOrderOption = {this.setOrderOption}
-                        />
-                    </Col>
-                    <Col sm={10} md={10} lg ={10}>
-                        {currOption}
-                    </Col>
-                </Row>
+            //const pageTitle = "ShopBot Grocery Store Log In";
+            return(
+                <Container>
+                    <Row sm={1} md={1} lg ={1}>
+                        <ShopBotNavBar/>
+                    </Row>
 
-
-
-
-            </Container>
-        );
+                    <Row>
+                        <Col sm={2} md={2} lg ={2}>
+                            <OrderOptions 
+                                setOrderOption = {this.setOrderOption}
+                            />
+                        </Col>
+                        <Col sm={10} md={10} lg ={10}>
+                            {currOption}
+                        </Col>
+                    </Row>
+                </Container>
+            );
+        
     }
 
 }
 
-export default OrdersPage
+const mapStateToProps = state => ({
+
+    token: state.auth.token,
+    groceryStoreID: state.auth.groceryStore.store_ID
+    
+});
+
+export default connect(mapStateToProps)(OrdersPage);

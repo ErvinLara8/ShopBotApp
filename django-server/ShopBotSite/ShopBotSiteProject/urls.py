@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from knox import views as knox_views
 
 urlpatterns = [
+    path('api/auth', include('knox.urls')),
     path('', include('frontend.urls')),
     path('', include('ShopBotAPI.urls')),
-    path('admin/', admin.site.urls),
-
+    path('api/auth/logout', knox_views.LogoutView.as_view(), name ="knox_logout")
 ]

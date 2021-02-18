@@ -4,12 +4,11 @@ from rest_framework.response import Response
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework.decorators import action
-from rest_framework import status
 from django.shortcuts import get_object_or_404
 
 
 from ShopBotAPI.models import Orders, OrderDetails, StoreListings
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from ..Serializers.OrderSerializer import GetFullOrdersSerializer, CheckOrAddOrderTableSerializer
 from ..Serializers.OrderDetailSerializer import AddOrderDetailSerializer, OrderDetailSerializer
 from ..Serializers.StoreListingSerializer import StoreListingSerializer
@@ -36,6 +35,12 @@ for more info go to https://www.django-rest-framework.org/api-guide/routers/#usa
 """
 
 class OrdersViewSet(viewsets.ModelViewSet):
+
+
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
 
     # List all Order (GET resquest with no ID on url)
     def list(self, request):
@@ -66,12 +71,12 @@ class OrdersViewSet(viewsets.ModelViewSet):
 
     
     # Getting all completed orders
-    @action(detail=False, methods=['get'] )
-    def fetching_completed_orders(self, request):
+    @action(detail=True, methods=['get'] )
+    def fetching_completed_orders(self, request, pk=None):
 
         try:
 
-            queryset = Orders.objects.filter(completed=1)
+            queryset = Orders.objects.filter(completed=1, store_ID = pk)
 
             serializer = GetFullOrdersSerializer(queryset, many=True)
 
@@ -81,12 +86,12 @@ class OrdersViewSet(viewsets.ModelViewSet):
             return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST,safe=False)
 
     # Getting all pending orders
-    @action(detail=False, methods=['get'] )
-    def fetching_pending_orders(self, request):
+    @action(detail=True, methods=['get'] )
+    def fetching_pending_orders(self, request, pk=None):
 
         try:
 
-            queryset = Orders.objects.filter(completed=0)
+            queryset = Orders.objects.filter(completed=0, store_ID = pk)
 
             serializer = GetFullOrdersSerializer(queryset, many=True)
             
