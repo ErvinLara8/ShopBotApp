@@ -7,6 +7,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
 
 
 // State Page for Orders
@@ -24,9 +25,35 @@ class ViewInventory extends React.Component {
         super(props);
         this.state = {
           modalShow: false,
-          
+          quantity: "",
+          price: "",
+          currListingID: 0
         };
+
+        this.updateListing = this.updateListing.bind(this);
       }
+
+    updateListing(listingID){
+
+
+      var update = {}
+
+      if (this.state.quantity == "" && this.state.price == ""){
+       console.log("ALERT")
+       return 
+      }
+
+      if (this.state.quantity != ""){
+        update.quantity = this.state.quantity
+      }
+
+      if (this.state.price != ""){
+        update.price = this.state.price
+      }
+      this.props.updateProduct(update, listingID)
+      this.setState({modalShow: false})
+    }
+    
 
     //modal to update a listing from the ones on the list
     UpdateListingModal(props) {
@@ -44,22 +71,27 @@ class ViewInventory extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <h4>{props.productName}</h4>
-              <em>{props.productID}</em>
+              <em>Product ID: {props.productID}</em>
+              <br/>
               <Form>
                     <Form.Group>
                         <Form.Label>Quantiy</Form.Label>
-                        <Form.Control type="text" placeholder="Quantity "/>
+                        <Form.Control 
+                          type="text" 
+                          placeholder="Quantity "
+                          onChange={e => props.setQuantity(e.target.value)} 
+                        />
                         
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Price</Form.Label>
-                        <Form.Control type="text" placeholder="Price ($USD) "/>
-                        
+                        <Form.Control 
+                          type="text" 
+                          placeholder="Price ($USD) "
+                          onChange={e => props.setPrice(e.target.value)}   
+                        />
                     </Form.Group>
-                    
-                    <Button variant="primary" type="submit">
-                    Submit
-                    </Button>
+                    <Button variant="primary" type="button" onClick ={props.updateListing}>Submit</Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -82,19 +114,18 @@ class ViewInventory extends React.Component {
 
             var allProducts = this.props.allProducts.map((currProduct)=>(
                 <ListGroup.Item>
-                    <h3>{currProduct["product_name"]}</h3>
-                    <em>${currProduct["product_price"]}</em>
-                    <em> | Qnt : 54</em><br/>
-                    <em>Product ID: {currProduct["product_id"]}</em>
-                   
-                    <em> | Store ID :{currProduct["store_id"]} </em>
+                    <h3>{currProduct["product_ID"]["name"]}</h3>
+                    <em>${currProduct["price"]}</em>
+                    <em> | Qnt : {currProduct["quantity"]}</em><br/>
+                    <em>Product ID: {currProduct["product_ID"]["product_ID"]}</em>
+                    <em> | Listing ID: {currProduct["listing_ID"]}</em>
+                    <em> | Store ID :{this.props.storeID} </em>
                     <Button class="btn"
                     onClick={() => {
                         this.setState({ modalShow:true })
-                        this.productName=currProduct.product_name
-                        this.productID=currProduct.product_id
-                        console.log(this.productName)
-                    
+                        this.productName=currProduct["product_ID"]["name"]
+                        this.productID=currProduct["product_ID"]["product_ID"]
+                        this.listingID = currProduct["listing_ID"]                 
                     }}
                     >Update Listing</Button>
                     
@@ -107,8 +138,12 @@ class ViewInventory extends React.Component {
              <this.UpdateListingModal
                     productName={this.productName}
                     productID={this.productID}
+                    listingID = {this.listingID}
                     show={this.state.modalShow}
                     onHide={() => this.setState({ modalShow:false })}
+                    updateListing = {() => this.updateListing(this.listingID)}
+                    setQuantity = {(value) => this.setState({ quantity: value })}
+                    setPrice = {(value) => this.setState({price: value})}
                  />
              </div>
 
@@ -116,7 +151,7 @@ class ViewInventory extends React.Component {
         }
         else
         {
-            display = <h1>No Completed Orders!</h1>
+            display = <h1>No Product Listing!</h1>
         }
 
         return(

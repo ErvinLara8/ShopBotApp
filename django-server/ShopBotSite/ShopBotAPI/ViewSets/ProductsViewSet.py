@@ -97,3 +97,22 @@ class ProductsViewSet(viewsets.ModelViewSet):
         except Exception as e:
             print(e)
             return JsonResponse({"Error":"Error"}, status=status.HTTP_400_BAD_REQUEST,safe=False)
+
+    @action(detail=True, methods=['post'])
+    def update_listing(self, request, pk=None):
+
+        # getting the store from the Database
+        listing = StoreListings.objects.get(pk=pk)
+
+        update = JSONParser().parse(request)
+
+        listing_serializer = StoreListingSerializer(listing, data = update, partial=True)
+
+        if listing_serializer.is_valid():
+            listing_serializer.save()
+
+            return JsonResponse(listing_serializer.data, status=status.HTTP_201_CREATED, safe=False)
+        
+        else:
+
+            return JsonResponse(listing_serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)

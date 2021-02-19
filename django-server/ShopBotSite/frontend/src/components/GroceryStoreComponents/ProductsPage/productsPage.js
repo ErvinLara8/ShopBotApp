@@ -19,22 +19,6 @@ import PropTypes from 'prop-types';
 // and the data is transferred from component to component
 
 
-//demo product data
-const AllProducts=[
-    {
-        "product_id":"abc233",
-        "product_name":"cup",
-        "product_price":5.99,
-        "store_id":"cvb56"
-    },
-    {
-        "product_id":"abc233",
-        "product_name":"cup",
-        "product_price":5.99,
-        "store_id":"cvb56"
-    }
-]
-
 class ProductsPage extends React.Component {
 
     static propTypes = {
@@ -49,28 +33,53 @@ class ProductsPage extends React.Component {
         //this are the page variables
         this.state = {
             productOption: "addProduct", 
-            numOfProducts: 2,
-            allProducts: AllProducts,
+            numOfProducts: -1,
+            allProducts: [],
+            allListings: [],
+            allListingLength: -1,
+            categories: []
         }
 
-        //Here I am binding all functions
-      // this.setOrderOption = this.setOrderOption.bind(this);
-        //this.pendingToComplete = this.pendingToComplete.bind(this);
         this.setProductOption = this.setProductOption.bind(this);
-        this.addingProduct = this.addingProduct(this);
-        this.getInventory = this.getInventory(this);
-
+        this.addingProduct = this.addingProduct.bind(this);
+        this.getInventory = this.getInventory.bind(this);
+        this.updateProduct = this.updateProduct.bind(this);
+        this.getCategories = this.getCategories.bind(this);
+        this.getAllProducts = this.getAllProducts.bind(this);
+        this.addListing = this.addListing.bind(this);
     }
 
     //function to set variable that determines which option is being displayed
     setProductOption(option){
         this.setState({productOption: option});
+        this.componentDidMount();
+        this.componentDidMount();
+
     }
 
+    getCategories(){
+
+        fetch('api/auth/ProductsAPI/fetch_categories', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            }
+            }) 
+            .then(res => res.json())
+            .then((result) => {
+    
+                this.setState({
+                    categories: result
+                });
+
+            },
+            ).catch(error =>{ console.log(error)});
+    }
 
     addingProduct(productName, productDescription, category){
 
-        fetch('/api/auth/ProductsAPI/add_product/', {
+        fetch('/api/auth/ProductsAPI/add_product_detail/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -82,30 +91,103 @@ class ProductsPage extends React.Component {
                 category_ID: category
             })
             }).catch(error =>{ console.log(error)});
+            this.componentDidMount();
+            this.componentDidMount();
+
+    }
+
+    addListing(price, quantity, productID){
+        fetch('api/auth/ProductsAPI/add_listing/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            },
+            body: JSON.stringify({
+                "price": price,
+                "quantity": quantity,
+                "product_ID": productID,
+                "storeID": this.props.groceryStoreID
+            })
+            }).catch(error =>{ console.log(error)});
+
+            this.componentDidMount();
+            this.componentDidMount();
+    }
+
+    updateProduct(update, listingID){
+
+        fetch('api/auth/ProductsAPI/'+listingID+'/update_listing/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            },
+            body: JSON.stringify(update)
+            }).catch(error =>{ console.log(error)});
+
+            this.componentDidMount();
+            this.componentDidMount();
+    }
+
+    getAllProducts(){
+
+        fetch('/api/auth/ProductsAPI/fetch_products', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            }
+            })
+            .then(res => res.json())
+            .then((result) => {
+    
+                this.setState({
+                    numOfProducts: result.length,
+                    allProducts: result
+                });
+
+            },
+            ).catch(error =>{ console.log(error)});
 
     }
 
     getInventory(){
 
+        fetch('/api/auth/ProductsAPI/'+ this.props.groceryStoreID+'/fetch_listings', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            }
+            })
+            .then(res => res.json())
+            .then((result) => {
+    
+                this.setState({
+                    allListingLength: result.length,
+                    allListings: result
+                });
+
+            },
+            ).catch(error =>{ console.log(error)});
+        }
+
+    componentDidMount(){
+
+        if (this.state.productOption === "addProduct")
+        {
+            this.getCategories();
+        }
+        else if (this.state.productOption === "addListing")
+        {
+            this.getAllProducts();
+        }
+        else
+        {
+            this.getInventory();
+        }
     }
-
-
-    //this method is called after the component is mounted to get all the info
-  /*  componentDidMount(){
-
-        fetch("/GetProducts")
-        .then(res => res.json())
-        .then((result) => {
-
-            this.setState({
-                numOfProducts: result.products.length,
-                allProducts: result.products,
-            });
-        },
-        (error) => { }
-        );
-
-    }*/
 
 
 
@@ -116,20 +198,26 @@ class ProductsPage extends React.Component {
         // choosing between pending and completed components
         if(this.state.productOption === "addProduct")
         {
-            currOption = <AddProduct/>
+            currOption = <AddProduct
+                            categories = {this.state.categories}
+                            addProduct = {this.addingProduct}
+                        />
         }
         else if (this.state.productOption === "addListing")
         {
             currOption = <AddListing
                     numOfProducts={this.state.numOfProducts}
                     allProducts={this.state.allProducts}
+                    addListing = {this.addListing}
             />
         }
         else if (this.state.productOption === "inventory")
         {
             currOption = <ViewInventory
-                    numOfProducts={this.state.numOfProducts}
-                    allProducts={this.state.allProducts}
+                    numOfProducts={this.state.allListingLength}
+                    allProducts={this.state.allListings}
+                    storeID = {this.props.groceryStoreID}
+                    updateProduct = {this.updateProduct}
             />
         }
 
