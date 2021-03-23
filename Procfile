@@ -1,1 +1,1 @@
-web: npm run build && cd ShopBotSite && gunicorn ShopBotSiteProject.wsgi
+web: npm install && npm run build && cd ShopBotSite && gunicorn ShopBotSiteProject.wsgi
