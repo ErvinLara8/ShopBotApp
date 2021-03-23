@@ -25,7 +25,7 @@ SECRET_KEY = 'yum7r!m8y@a!pf^^bc-)_(p1&ot$!%jhw(h!d=xscug)p%^^(='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ub-shopbot.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -141,3 +141,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
