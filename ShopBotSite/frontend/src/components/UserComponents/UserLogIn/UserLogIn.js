@@ -7,7 +7,8 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import logo from '../../../../ShopBot-Logo-Design.jpg';
-import {logInUser} from '../../../actions/auth'
+import {logInUser} from '../../../actions/auth';
+import Alert from 'react-bootstrap/Alert';
 
 
 class UserLogInComp extends React.Component {
@@ -25,7 +26,8 @@ class UserLogInComp extends React.Component {
          //this are the page variables
          this.state = {
              email : "",
-             password : ""
+             password : "",
+             showAlert: false
         }
 
         this.submitLogIn = this.submitLogIn.bind(this)
@@ -38,7 +40,8 @@ class UserLogInComp extends React.Component {
 
         this.props.logInUser(this.state.email, this.state.password)
 
-        
+        // HERE IS THE BUG WITH THE ALERT
+        this.setState({showAlert: true});
     }
 
     render(){
@@ -52,6 +55,16 @@ class UserLogInComp extends React.Component {
         {
             display =              
                 (<Container>
+                    <Alert show={this.state.showAlert} variant="danger">
+                        <Alert.Heading>Invalid Log In!</Alert.Heading>
+                        <div className="d-flex justify-content-end">
+                        <Button onClick={() => this.setState({showAlert: false})} variant="outline-danger">
+                            Close
+                        </Button>
+                        </div>
+                    </Alert>
+
+
                     <Row>
                     <h1 style={{ textAlign: "center" }}>ShopBot User Store Log In</h1>
                     </Row>
