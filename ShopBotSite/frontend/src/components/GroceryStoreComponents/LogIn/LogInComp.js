@@ -5,7 +5,10 @@ import {Container, Row, Col} from 'react-bootstrap';
 import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {logInGrocery} from '../../../actions/auth'
+import {logInGrocery} from '../../../actions/auth';
+import Alert from 'react-bootstrap/Alert';
+import {Link} from 'react-router-dom';
+
 
 
 class LogInComp extends React.Component {
@@ -25,7 +28,8 @@ class LogInComp extends React.Component {
          this.state = {
              email : "",
              storeID: 0,
-             password : ""
+             password : "",
+             showAlert: false
         }
 
         this.submitLogIn = this.submitLogIn.bind(this)
@@ -35,10 +39,9 @@ class LogInComp extends React.Component {
     submitLogIn(e){
 
         e.preventDefault();
-
-
         this.props.logInGrocery(this.state.email, parseInt(this.state.storeID), this.state.password )
 
+        this.setState({showAlert: true});
         
     }
 
@@ -53,6 +56,15 @@ class LogInComp extends React.Component {
         {
             display =              
                 (<Container>
+                    <Alert show={this.state.showAlert} variant="danger">
+                        <Alert.Heading>Invalid Log In!</Alert.Heading>
+                        <div className="d-flex justify-content-end">
+                        <Button onClick={() => this.setState({showAlert: false})} variant="outline-danger">
+                            Close
+                        </Button>
+                        </div>
+                    </Alert>
+
                     <Row>
                     <h1 style={{ textAlign: "center" }}>ShopBot Grocery Store Log In</h1>
                     </Row>
@@ -122,6 +134,11 @@ class LogInComp extends React.Component {
                                 </Button> 
                             </Col>
                             <Col sm= {3}>
+                            <Link to='/'>
+                                <Button variant="primary" type="button">
+                                   User Log In
+                                </Button>
+                                </Link>
                             </Col>
                         </Row>
                     </Form>
@@ -129,6 +146,30 @@ class LogInComp extends React.Component {
                     </Col>
                     <Col>
                     </Col>
+                    </Row>
+
+                    <Row>
+                       
+                    </Row>
+
+                    <Row>
+                    <br/>
+                    <p>
+                        <br/>
+                        For anyone interested in viewing the Grocery Store management Page here are the credentials:
+                        <br/>
+                        <br/>
+                        Store One:<br/>
+                        
+                            Email: billBaker@gmail.com <br/>
+                            Store ID: 1 <br/>
+                            Password: 123 <br/>
+                        <br/>
+                        Store Two: <br/>
+                            Email: bobSponge@gmail.com<br/>
+                            Store ID: 2<br/>
+                            Password: 123<br/>
+                    </p>
                     </Row>
 
                 </Container>

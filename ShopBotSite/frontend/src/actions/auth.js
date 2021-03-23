@@ -102,13 +102,15 @@ export const logInGrocery = (email, storeID, password) => dispatch => {
 
     axios.post('/api/auth/EmployeesStoreAPI/grocery_admin_log_in/', body, config)
         .then(res => {
+           
             dispatch({
                 type: GROCERY_LOG_IN_SUCCESS,
                 newToken: res.data.token,
                 userID: res.data.user_info.id,
                 userInfo: res.data.user_info,
                 groceryInfo: res.data.store_info
-            })
+            });
+            
         }).catch(err =>{
             console.log(err)
             dispatch({
@@ -140,12 +142,13 @@ export const logInUser = (email, password) => dispatch => {
                 userID: res.data.user_info.id,
                 userInfo: res.data.user_info,
             })
-        }).catch(err =>{
+            
+        }).then(()=>{return true}).catch(err =>{
             console.log(err)
             dispatch({
                 type:USER_LOG_IN_FAIL
             })
-        });
+        }).then(()=>{return false});
 }
 
 

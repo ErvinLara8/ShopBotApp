@@ -1,0 +1,1 @@
+web: cd ShopBotSite && gunicorn ShopBotSiteProject.wsgi
