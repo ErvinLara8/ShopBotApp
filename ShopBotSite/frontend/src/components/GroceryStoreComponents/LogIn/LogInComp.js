@@ -29,6 +29,7 @@ class LogInComp extends React.Component {
              email : "",
              storeID: 0,
              password : "",
+             alertType: "loading",
              showAlert: false
         }
 
@@ -38,10 +39,12 @@ class LogInComp extends React.Component {
 
     submitLogIn(e){
 
+        this.setState({alertType: "loading", showAlert: true});
+
         e.preventDefault();
         this.props.logInGrocery(this.state.email, parseInt(this.state.storeID), this.state.password )
-
-        this.setState({showAlert: true});
+        
+        this.setState({alertType: "fail", showAlert: true});
         
     }
 
@@ -54,16 +57,31 @@ class LogInComp extends React.Component {
         }
         else
         {
+            var currAlert; 
+            if(this.state.alertType === 'loading'){
+                currAlert = <Alert show={this.state.showAlert} variant="secondary">
+                <Alert.Heading>Invalid Log In!</Alert.Heading>
+                    <div className="d-flex justify-content-end">
+                    <Button onClick={() => this.setState({showAlert: false})} variant="outline-secondary">
+                        Close
+                    </Button>
+                    </div>
+                </Alert>
+            }else{
+                currAlert = <Alert show={this.state.showAlert} variant="danger">
+                <Alert.Heading>Invalid Log In!</Alert.Heading>
+                    <div className="d-flex justify-content-end">
+                    <Button onClick={() => this.setState({showAlert: false})} variant="outline-danger">
+                        Close
+                    </Button>
+                    </div>
+                </Alert>
+            }
+
+
             display =              
                 (<Container>
-                    <Alert show={this.state.showAlert} variant="danger">
-                        <Alert.Heading>Invalid Log In!</Alert.Heading>
-                        <div className="d-flex justify-content-end">
-                        <Button onClick={() => this.setState({showAlert: false})} variant="outline-danger">
-                            Close
-                        </Button>
-                        </div>
-                    </Alert>
+                    {currAlert}
 
                     <Row>
                     <h1 style={{ textAlign: "center" }}>ShopBot Grocery Store Log In</h1>

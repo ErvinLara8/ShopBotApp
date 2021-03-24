@@ -40,18 +40,20 @@ export const loadUser = () => (dispatch, getState) => {
         config.headers['Authorization'] = `Token ${token}`;
     }
 
-    if(isEmployee === true){
+    if(isEmployee === 'true' || isEmployee === true){
 
         const body = JSON.stringify({
             user_ID: userID
         });
 
+        console.log(body)
+
         axios.post('/api/auth/GetEmployeesAPI/get_manager_and_store/', body, config)
         .then(res => {
             dispatch({
                 type: GROCERY_USER_LOADED,
-                userInfo: res.user_id,
-                groceryInfo: res.store_ID
+                userInfo: res['data'][0]['user_id'],
+                groceryInfo: res['data'][0]['store_ID']
             })
         }).catch(err =>{
             console.log(err)
@@ -85,7 +87,7 @@ export const loadUser = () => (dispatch, getState) => {
 
 
 // log in for store
-export const logInGrocery = (email, storeID, password) => dispatch => {
+export const logInGrocery = (email, storeID, password) => (dispatch) => {
      
     // Headers 
     const config = {

@@ -10,7 +10,7 @@ const PrivateGroceryRoute = ({ component:Component, auth,  ...rest}) => (
 
         if(auth.isLoading){
             return <h2>Loading....</h2>
-        }else if (!auth.isAuthenticated || auth.isEmployee == false){
+        }else if (!auth.isAuthenticated || auth.isEmployee == false || auth.isEmployee == 'false'){
             return <Redirect to = "/GroceryStoreLogIn"/>
         }else{
          return <Component {...props}/>

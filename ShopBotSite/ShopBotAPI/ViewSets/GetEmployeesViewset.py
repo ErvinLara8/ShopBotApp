@@ -39,14 +39,16 @@ class GetEmployeesViewSet(viewsets.ModelViewSet):
         try:
             frontend = JSONParser().parse(request)
 
-            employee_query = Employees.objects.get(user_id__id__contains = frontend['user_ID'])
+            employee_query = Employees.objects.filter(user_id__id = frontend['user_ID'])
 
-            full_info = GetEmployeeSerializer(employee_query)
+            full_info = GetEmployeeSerializer(employee_query, many=True)
 
-            return JsonResponse(full_info.data, safe=False)
+            print(full_info.data)
+
+            return JsonResponse(full_info.data, status=status.HTTP_200_OK, safe=False)
         except Exception as e:
             print(e)
-            return JsonResponse({"Error":"Error"}, status=status.HTTP_400_BAD_REQUEST,safe=False)
+            return JsonResponse({'Error': "Error"}, status=status.HTTP_400_BAD_REQUEST,safe=False)
 
 
     @action(detail=True, methods=['get'])
@@ -58,7 +60,7 @@ class GetEmployeesViewSet(viewsets.ModelViewSet):
 
             serializer = GetEmployeeSerializer(queryset, many=True)
 
-            return JsonResponse(serializer.data, safe=False)
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
         
         except Exception as e:
             print(e)
@@ -74,7 +76,7 @@ class GetEmployeesViewSet(viewsets.ModelViewSet):
 
             serializer = GetEmployeeSerializer(queryset, many=True)
 
-            return JsonResponse(serializer.data, safe=False)
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
         
         except Exception as e:
             print(e)
