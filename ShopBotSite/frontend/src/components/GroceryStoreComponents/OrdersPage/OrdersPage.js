@@ -73,7 +73,7 @@ class OrdersPage extends React.Component {
             body: JSON.stringify({
                 "completed": true
             })
-            }).then(()=>{ this.fetchingPendingOrders()}).then(()=>{this.componentDidMount}).catch(error =>{ console.log(error)});
+            }).then(()=>{ this.fetchingPendingOrders();}).then(()=>{this.componentDidMount();}).catch(error =>{ console.log(error)});
 
         
             

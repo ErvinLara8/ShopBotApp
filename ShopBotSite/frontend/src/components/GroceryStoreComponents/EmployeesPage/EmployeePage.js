@@ -44,8 +44,8 @@ class EmployeePage extends React.Component {
 
     //function to set variable that determines which option is being displayed
     setEmployeeOption(option){
-        this.setState({employeeOption: option});
-        this.componentDidMount();
+        this.setState({employeeOption: option}, ()=>{this.componentDidMount()});
+        
     }
 
     // this method will be called when an off duty employee clocks in
@@ -59,9 +59,8 @@ class EmployeePage extends React.Component {
             body: JSON.stringify({
                 is_working: true
             })
-            }).catch(error =>{ console.log(error)});  
+            }).then(()=> {this.componentDidMount();}).catch(error =>{ console.log(error)});  
 
-            this.componentDidMount();
     }
 
     // this method will be called when an on duty employee clocks out
@@ -75,9 +74,7 @@ class EmployeePage extends React.Component {
             body: JSON.stringify({
                 is_working: false
             })
-            }).catch(error =>{ console.log(error)});  
-
-            this.componentDidMount();
+            }).then(()=> {this.componentDidMount();}).catch(error =>{ console.log(error)});  
 
     }
 
