@@ -94,13 +94,22 @@ DATABASES = {
     #         'password': 'Ervin123',
     #     }
     # }
-     'default': {
+    #  'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'ShopBotDB',
+    #     'USER': 'admin',
+    #     'PASSWORD': 'Shopbot12345',
+    #     'HOST': 'shopbotdb.ckuidivjfp5c.us-east-1.rds.amazonaws.com',   # Or an IP Address that your DB is hosted on
+    #     'PORT': '3306',
+    # }
+
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ShopBotDB',
-        'USER': 'admin',
+        'USER': 'root',
         'PASSWORD': 'Shopbot12345',
-        'HOST': 'shopbotdb.ckuidivjfp5c.us-east-1.rds.amazonaws.com',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'HOST': '68.183.23.35',   # Or an IP Address that your DB is hosted on
+        'PORT': '6603',
     }
 }
 

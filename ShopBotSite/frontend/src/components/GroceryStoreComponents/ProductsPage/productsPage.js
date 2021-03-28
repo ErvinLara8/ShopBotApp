@@ -51,10 +51,8 @@ class ProductsPage extends React.Component {
 
     //function to set variable that determines which option is being displayed
     setProductOption(option){
-        this.setState({productOption: option});
-        this.componentDidMount();
-        this.componentDidMount();
-
+        this.setState({productOption: option}, ()=>{this.componentDidMount()});
+        
     }
 
     getCategories(){
@@ -90,9 +88,7 @@ class ProductsPage extends React.Component {
                 description: productDescription,
                 category_ID: category
             })
-            }).catch(error =>{ console.log(error)});
-            this.componentDidMount();
-            this.componentDidMount();
+            }).then(()=> {this.componentDidMount();}).catch(error =>{ console.log(error)});
 
     }
 
@@ -109,10 +105,7 @@ class ProductsPage extends React.Component {
                 "product_ID": productID,
                 "storeID": this.props.groceryStoreID
             })
-            }).catch(error =>{ console.log(error)});
-
-            this.componentDidMount();
-            this.componentDidMount();
+            }).then(()=> {this.componentDidMount();}).catch(error =>{ console.log(error)});
     }
 
     updateProduct(update, listingID){
@@ -124,10 +117,7 @@ class ProductsPage extends React.Component {
                 'Authorization': `Token ${this.props.token}`
             },
             body: JSON.stringify(update)
-            }).catch(error =>{ console.log(error)});
-
-            this.componentDidMount();
-            this.componentDidMount();
+            }).then(()=> {this.componentDidMount();}).catch(error =>{ console.log(error)});
     }
 
     getAllProducts(){

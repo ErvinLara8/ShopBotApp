@@ -57,7 +57,7 @@ class OrderHistoryPage extends React.Component {
 
         if(this.state.numOfOrders === -1)
         {
-            display = <h1>Loading products...</h1>
+            display = <h1>Loading Orders...</h1>
         }
         else if (this.state.numOfOrders > 0)
         {

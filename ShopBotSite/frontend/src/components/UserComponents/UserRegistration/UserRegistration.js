@@ -134,7 +134,7 @@ class UserLogInComp extends React.Component {
 
             <button type="button" className="btn btn-success btn-lg btn-block" onClick={this.submitRegistration}>Register</button>
             <p className="forgot-password text-right">
-                Already registered <a href="login">log in</a>
+                Already registered <Link to='/'>log in</Link>
             </p>
         </form>
 
